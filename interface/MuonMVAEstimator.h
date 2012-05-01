@@ -41,7 +41,7 @@ class MuonMVAEstimator{
       kIDIsoRingsCombined = 0,  
       kIsoRings,
       kIsoDeltaR,
-			kID
+      kID
     };
   
     void     initialize( std::string methodName,
@@ -67,17 +67,64 @@ class MuonMVAEstimator{
                       double Rho,
                       MuonEffectiveArea::MuonEffectiveAreaTarget EATarget,
                       const reco::GsfElectronCollection &IdentifiedElectrons,
-                      const reco::MuonCollection &IdentifiedMuons);
+                      const reco::MuonCollection &IdentifiedMuons,
+		      double dzCut=0.2);
     
     // MVA value for the isoDeltaR MVA
     Double_t mvaValue(const reco::Muon& mu,
 		      const reco::PFCandidateCollection &PFCandidates,
 		      double Rho, 
 		      MuonEffectiveArea::MuonEffectiveAreaTarget EATarget);
+					
+		// MVA value for the ID MVA
+    Double_t mvaValue_ID(const reco::Muon& mu,
+		      const reco::Vertex& vertex);			
+					
 #endif
+
+    Double_t mvaValue_ID(Double_t Pt,
+                         Double_t Eta,
+                         Bool_t isGlobalMuon,
+                         Bool_t isTrackerMuon,
+                         Double_t MuTkNchi2,
+                         Double_t MuGlobalNchi2,
+                         Double_t MuNValidHits,
+                         Double_t MuNTrackerHits,
+                         Double_t MuNPixelHits,
+                         Double_t MuNMatches,
+                         Double_t MuTrkKink,
+                         Double_t MuSegmentCompatibility,
+                         Double_t MuCaloCompatibility,
+                         Double_t MuHadEnergy,
+                         Double_t MuEmEnergy,
+                         Double_t MuHadS9Energy,
+                         Double_t MuEmS9Energy,
+                         Bool_t printDebug = kFALSE );
     
+    Double_t mvaValue_Iso(Double_t Pt,
+                          Double_t Eta,
+                          Bool_t isGlobalMuon,
+                          Bool_t isTrackerMuon,
+                          Double_t Rho,
+                          MuonEffectiveArea::MuonEffectiveAreaTarget EATarget,
+                          Double_t ChargedIso_DR0p0To0p1,
+                          Double_t ChargedIso_DR0p1To0p2,
+                          Double_t ChargedIso_DR0p2To0p3,
+                          Double_t ChargedIso_DR0p3To0p4,
+                          Double_t ChargedIso_DR0p4To0p5,
+                          Double_t GammaIso_DR0p0To0p1,
+                          Double_t GammaIso_DR0p1To0p2,
+                          Double_t GammaIso_DR0p2To0p3,
+                          Double_t GammaIso_DR0p3To0p4,
+                          Double_t GammaIso_DR0p4To0p5,
+                          Double_t NeutralHadronIso_DR0p0To0p1,
+                          Double_t NeutralHadronIso_DR0p1To0p2,
+                          Double_t NeutralHadronIso_DR0p2To0p3,
+                          Double_t NeutralHadronIso_DR0p3To0p4,
+                          Double_t NeutralHadronIso_DR0p4To0p5,
+                          Bool_t printDebug = kFALSE );
     
- private:
+  private:
     std::vector<TMVA::Reader*> fTMVAReader;
     std::string                fMethodname;
     Bool_t                     fisInitialized;
